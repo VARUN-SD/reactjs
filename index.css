@@ -1,3 +1,4 @@
+
 .header{
     display: flex;
     justify-content: space-between;
@@ -35,6 +36,7 @@
 }
 .search{
     padding: 10px;
+    display:flex ;
 }
 .res-image{
     width:100%;
@@ -43,7 +45,34 @@
     display: flex;
     flex-wrap: wrap;
 }
+.search{
+    display: auto;
+}
 .filter-btn{
     margin: 10px;
     cursor:pointer;
+}
+
+.btn-search{
+    margin-left: 5px;
+    cursor: pointer;
+}
+.shimmer{
+    display: flex;
+    flex-wrap: wrap;
+}
+.shimmer-card{
+    width: 200px;
+    height: 400px;
+    margin: 15px;
+    padding: 5px;
+    animation: shimmer 2s ease-in-out infinite;
+    background-color: lightgray;
+}
+.login{
+    padding: 0px 20px;
+    cursor:pointer;
+}
+.buttons{
+    display: flex;
 }
