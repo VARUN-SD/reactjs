@@ -2,8 +2,9 @@
 .header{
     display: flex;
     justify-content: space-between;
-    border: 1px solid black;
+    border: 1px solid rgb(219, 223, 224);
 }
+
 .logo{
     width:200px;
 }
@@ -15,64 +16,101 @@
     font-size: 24px;
     display: flex;
     list-style-type: none;
-
 }
 
 .nav-items > ul > li{
     margin: 10px;
     padding: 10px;
+    color:black;
+    text-underline-offset:-150px;
 }
 
 .res-card{
-    width: 200px;
+    width: 300px;
     height: auto;
-    margin: 15px;
-    padding: 5px;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: white;
+    text-align: center;
+    box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.2);
+    color: black;
 }
 .res-card:hover{
     cursor: pointer;
-    border: 1px solid black;
-
+    border: 1px solid rgb(254, 123, 0);
+    box-shadow: 2px 4px 8px 0 #f85402;
 }
 .search{
     padding: 10px;
     display:flex ;
 }
 .res-image{
-    width:100%;
+   height: 200px;
+   width: 300px;
+   border-radius: 20px; 
+   justify-content: center;
+   align-items: center;
 }
 .res-container{
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 .search{
     display: auto;
 }
+.search-box{
+    border-radius: 5px;
+}
 .filter-btn{
     margin: 10px;
     cursor:pointer;
+    border-color: #18c501;
+    color: #18c501;
+    border-radius: 5px;
+}
+.filter-btn:hover{
+    background: #18c501;
+    color: white;
+  
 }
 
 .btn-search{
     margin-left: 5px;
     cursor: pointer;
+    border-color: #2196F3;
+    color: dodgerblue;
+    border-radius: 5px;
 }
+.btn-search:hover {
+    background: #2196F3;
+    color: white;
+  }
 .shimmer{
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 .shimmer-card{
-    width: 200px;
+    width: 300px;
     height: 400px;
-    margin: 15px;
+    margin: 45px 10px 0 10px;
     padding: 5px;
     animation: shimmer 2s ease-in-out infinite;
     background-color: lightgray;
+    border-radius: 15px;
 }
 .login{
-    padding: 0px 20px;
+    padding: 0px 15px;
     cursor:pointer;
+    border-radius: 15px;
 }
 .buttons{
     display: flex;
+    justify-content: center;
+}
+.menu{
+   display: grid;
+   place-items: center;
 }
