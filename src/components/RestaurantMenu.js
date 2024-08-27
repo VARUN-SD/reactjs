@@ -1,22 +1,13 @@
-import {useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
-import { MENU_API_URL } from "../utils/constants";
+import useRestaurantMenu from "../utils/useRestaurantMenu";
 
 const RestaurantMenu=()=>{
 
-    const [menuItems,setmenuItems]=useState("");  //original list of restaurants
-    
     const {resId}=useParams();
 
-    useEffect(()=>{fetchMenu()},[]);
-    const fetchMenu=async()=>{
-        const data= await fetch(MENU_API_URL+resId);
-        const json=await data.json();
-        console.log(json); 
-        setmenuItems(json.data);
-         //updating the menuItems state with fetched data from API.
-    };
+    const menuItems=useRestaurantMenu(resId);
+
 
     if(!menuItems) return (<Shimmer/>);  //loading spinner until menuItems are fetched.
 
@@ -25,8 +16,8 @@ const RestaurantMenu=()=>{
     console.log(itemCards);
 
     return(
-        <div className='menu'>
-            <h1>{name}</h1>
+        <div className="grid place-content-center">
+            <h1 className="font-bold">{name}</h1>
             <p>{cuisines.join(", ")} - {costForTwoMessage}</p>
             <h2>Menu</h2>
             <ul>

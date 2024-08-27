@@ -3,6 +3,7 @@ import { useState ,useEffect} from "react";
 import Shimmer from "./Shimmer";
 import { API_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 
 const Body=()=>{
@@ -24,34 +25,37 @@ const Body=()=>{
         setListOfRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
         setfilteredRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     };
+    
+    const onlinestatus=useOnlineStatus();
+    
+    if(!onlinestatus) return <h1>You are offline. Please check your internet connection.</h1>  //display message when user is offline.
 
     return   ListOfRestaurants.length===0?(<Shimmer/>):  (
         <div className="body">
-            <div className="buttons">
-            <div className="search">
-                <input type="text" className="search-box"
-                 value={searchtext} onChange={(e)=>{
-                    setsearchtext(e.target.value);
-                 }} placeholder="Search for a Restaurant..." />
-                <button onClick={()=>{
-                   const searchedrestaurant= ListOfRestaurants.filter((res)=>res.info.name.toLowerCase().includes(searchtext.toLowerCase()));
-                   setfilteredRestaurants(searchedrestaurant);
-                }} className="btn-search" >Search</button>
+            <div className="flex justify-center">
+                <div >
+                    <input type="text" className=" p-1 border border-solid border-black"
+                     value={searchtext} onChange={(e)=>{
+                        setsearchtext(e.target.value);
+                     }} placeholder="Search for a Restaurant..." />
+                    <button className="px-4 py-2 bg-green-100 m-4 rounded-lg" onClick={()=>{
+                        const searchedrestaurant= ListOfRestaurants.filter((res)=>res.info.name.toLowerCase().includes(searchtext.toLowerCase()));
+                        setfilteredRestaurants(searchedrestaurant);
+                    }} >Search</button>
+                </div>
+                <div className='filter'>
+                    <button className="mt-4 p-2 bg-orange-100 rounded-lg "
+                    onClick={()=>{
+                        const topratedlist=ListOfRestaurants.filter(
+                            (res)=>res.info.avgRatingString>4);
+                            setfilteredRestaurants(topratedlist);
+                        }} >Top Rated Restaurants</button>
+                </div>
             </div>
-            <div className='filter'>
-                <button className="filter-btn"
-                onClick={()=>{
-                const topratedlist=ListOfRestaurants.filter(
-                       (res)=>res.info.avgRatingString>4);
-                    setfilteredRestaurants(topratedlist);
-                }} 
-                >Top Rated Restaurants</button>
-            </div>
-            </div>
-            <div className='res-container'>
+            <div className="flex flex-wrap justify-center">
                 {
                    filteredRestaurants.map((res) =>(
-                  <Link key={res.info.id} to={"/restaurants/"+res.info.id}> <RestaurantCard resData={res}/></Link>))
+                   <Link key={res.info.id} to={"/restaurants/"+res.info.id}> <RestaurantCard resData={res}/></Link>))
                 }
             </div>
         </div>
