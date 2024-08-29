@@ -1,9 +1,10 @@
-import RestaurantCard from "./RestaurantCard";
-import { useState ,useEffect} from "react";
+import {RestaurantCard,withOfferLabel} from "./RestaurantCard";
+import { useState ,useEffect,useContext} from "react";
 import Shimmer from "./Shimmer";
 import { API_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 
 const Body=()=>{
@@ -14,6 +15,8 @@ const Body=()=>{
 
     const [searchtext,setsearchtext]=useState("");
 
+    const RestaurantOffer = withOfferLabel(RestaurantCard);
+
     useEffect(()=>{
         fetchData();
     },[]);
@@ -21,7 +24,6 @@ const Body=()=>{
     const fetchData=async()=>{
         const data=await fetch(API_URL);
         const json=await data.json();
-        console.log(json);
         setListOfRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
         setfilteredRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     };
@@ -29,6 +31,8 @@ const Body=()=>{
     const onlinestatus=useOnlineStatus();
     
     if(!onlinestatus) return <h1>You are offline. Please check your internet connection.</h1>  //display message when user is offline.
+
+    const {loggedInUser,setuserName}=useContext(UserContext);  //using user context to access user information.
 
     return   ListOfRestaurants.length===0?(<Shimmer/>):  (
         <div className="body">
@@ -51,11 +55,21 @@ const Body=()=>{
                             setfilteredRestaurants(topratedlist);
                         }} >Top Rated Restaurants</button>
                 </div>
+                <div>
+                    <label className="pl-2" >Name : </label>
+                    <input  className="mt-5 mx-3 p-1 border border-solid border-black" 
+                    value={loggedInUser} 
+                    onChange={(e)=>{
+                        setuserName(e.target.value);  //updating user name when entered.
+                    }}/>
+                </div>
             </div>
             <div className="flex flex-wrap justify-center">
                 {
                    filteredRestaurants.map((res) =>(
-                   <Link key={res.info.id} to={"/restaurants/"+res.info.id}> <RestaurantCard resData={res}/></Link>))
+                   <Link key={res.info.id} to={"/restaurants/"+res.info.id}>
+                    {res.info.aggregatedDiscountInfoV3?<RestaurantOffer resData={res} />:<RestaurantCard resData={res}/>} 
+                    </Link>))
                 }
             </div>
         </div>

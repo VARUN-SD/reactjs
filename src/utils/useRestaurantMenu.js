@@ -7,7 +7,6 @@ const useRestaurantMenu=(resId)=>{
     const fetchMenu=async()=>{
         const data= await fetch(MENU_API_URL+resId);
         const json=await data.json();
-        console.log(json);
         setmenuItems(json.data);
          //updating the menuItems state with fetched data from API.
     }

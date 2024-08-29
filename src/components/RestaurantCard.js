@@ -1,7 +1,11 @@
+import { useContext } from "react";
 import { CDN_URL } from "../utils/constants";
+import UserContext from "../utils/UserContext";
 
-const RestaurantCard=(props)=>{
+export const RestaurantCard=(props)=>{
     const {resData}=props;
+
+    const {loggedInUser}=useContext(UserContext);
 
     const {cloudinaryImageId,name,cuisines,avgRating,costForTwo,sla}=resData?.info;
     
@@ -13,8 +17,23 @@ const RestaurantCard=(props)=>{
             <h4>{avgRating}</h4>
             <h4>{costForTwo}</h4>
             <p>{sla.deliveryTime} minutes</p>
+            <p>User : {loggedInUser}</p>
         </div>
     )
 };
 
-export default RestaurantCard;
+     //Higher Order Components:
+     //Component that takes another component and returns a new component with additional props.
+
+export const withOfferLabel=(RestaurantCard)=>{
+    return(props)=>{
+        const {resData} = props;
+        const {header,subHeader} = resData?.info.aggregatedDiscountInfoV3;
+        return(
+            <div>
+                <label className="absolute mt-48 pl-16 font-bold text-white z-10 rounded-lg">{header} {subHeader}</label>
+                <RestaurantCard {...props}/>
+            </div>
+        )
+    }
+};
