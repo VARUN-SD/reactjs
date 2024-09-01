@@ -8,9 +8,9 @@ const Cart=()=>{
 
     const dispatch =useDispatch();
 
-    const handleClearCart=(item)=>{
+    const handleClearCart=()=>{
         // Dispatch action to clear cart
-        dispatch(clearCart(item));
+        dispatch(clearCart());
     }
     return(
         <div className="text-center m-4 p-4">

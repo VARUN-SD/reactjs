@@ -24,13 +24,14 @@ const Body=()=>{
     const fetchData=async()=>{
         const data=await fetch(API_URL);
         const json=await data.json();
+        console.log(json);
         setListOfRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
         setfilteredRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     };
     
     const onlinestatus=useOnlineStatus();
     
-    if(!onlinestatus) return <h1>You are offline. Please check your internet connection.</h1>  //display message when user is offline.
+    if(!onlinestatus) return <h1 data-testid="status">You are offline. Please check your internet connection.</h1>  //display message when user is offline.
 
     const {loggedInUser,setuserName}=useContext(UserContext);  //using user context to access user information.
 
@@ -38,7 +39,8 @@ const Body=()=>{
         <div className="body">
             <div className="flex justify-center">
                 <div >
-                    <input type="text" className=" p-1 border border-solid border-black"
+                    <input type="text" data-testid="searchInput"
+                     className=" p-1 border border-solid border-black"
                      value={searchtext} onChange={(e)=>{
                         setsearchtext(e.target.value);
                      }} placeholder="Search for a Restaurant..." />
@@ -55,9 +57,9 @@ const Body=()=>{
                             setfilteredRestaurants(topratedlist);
                         }} >Top Rated Restaurants</button>
                 </div>
-                <div>
+                <div data-testid="username">
                     <label className="pl-2" >Name : </label>
-                    <input  className="mt-5 mx-3 p-1 border border-solid border-black" 
+                    <input data-testid="user" className="mt-5 mx-3 p-1 border border-solid border-black" 
                     value={loggedInUser} 
                     onChange={(e)=>{
                         setuserName(e.target.value);  //updating user name when entered.
